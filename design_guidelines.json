@@ -1,0 +1,116 @@
+{
+  "theme": "dark",
+  "archetype": "Archetype 7 (Electric & Neon) + Archetype 4 (Developer Control Center)",
+  "typography": {
+    "headings": {
+      "font": "Outfit",
+      "fallback": "sans-serif",
+      "weight": "font-semibold to font-bold",
+      "tracking": "tracking-tight",
+      "usage": "Use for primary section headers, widget titles, and numbers."
+    },
+    "body": {
+      "font": "IBM Plex Sans",
+      "fallback": "sans-serif",
+      "weight": "font-normal",
+      "usage": "Use for all general UI text, paragraphs, and labels."
+    },
+    "mono": {
+      "font": "JetBrains Mono",
+      "fallback": "monospace",
+      "usage": "Use for the Agentic Log Terminal, API Keys, connection statuses, and metric numbers."
+    }
+  },
+  "colors": {
+    "backgrounds": {
+      "app": "#050505",
+      "surface": "#121212",
+      "surface_glass": "rgba(255, 255, 255, 0.03)",
+      "terminal": "#000000"
+    },
+    "accents": {
+      "primary": "#8B5CF6",
+      "primary_hover": "#A855F7",
+      "secondary": "#0EA5E9",
+      "neon_glow": "rgba(139, 92, 246, 0.4)"
+    },
+    "text": {
+      "primary": "#F8FAFC",
+      "secondary": "#94A3B8",
+      "muted": "#475569",
+      "terminal_log": "#4ADE80"
+    },
+    "status": {
+      "success": "#10B981",
+      "warning": "#F59E0B",
+      "error": "#EF4444"
+    },
+    "borders": {
+      "default": "rgba(255, 255, 255, 0.1)",
+      "focus": "#8B5CF6"
+    }
+  },
+  "layout_and_spacing": {
+    "grid_strategy": "Control Room Grid. Dense, strict hierarchy. Use grid-cols-1 md:grid-cols-3 lg:grid-cols-4 with gap-4 or gap-6.",
+    "spacing_scale": "Tailwind standard. Padding p-4 to p-6 inside cards to prevent text collision.",
+    "radius": "rounded-xl for main cards, rounded-md for inputs/buttons. (Subtle roundness)",
+    "sidebar": "Minimalist vertical sidebar, fixed to the left. Active items highlighted with a subtle electric blue or violet-purple left border and glass background."
+  },
+  "components": {
+    "cards": {
+      "style": "Glassmorphism: bg-white/[0.03] backdrop-blur-xl border border-white/10",
+      "hover": "hover:border-white/20 hover:shadow-[0_4px_24px_-8px_rgba(139,92,246,0.15)] transition-all duration-300"
+    },
+    "buttons": {
+      "primary": "bg-violet-600 hover:bg-violet-500 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] transition-all font-medium rounded-md",
+      "secondary": "bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all rounded-md",
+      "ghost": "hover:bg-white/10 text-slate-300 hover:text-white transition-all rounded-md"
+    },
+    "inputs": {
+      "style": "bg-black/40 border border-white/10 text-white focus:ring-2 focus:ring-violet-500 focus:border-transparent placeholder:text-slate-500 rounded-md"
+    },
+    "pipeline_stages": {
+      "style": "Horizontal or vertical flex list. Active steps use a glowing accent color (text-sky-400 or text-violet-400) and an active border. Use 'Tracing Beam' effect if possible."
+    },
+    "terminal": {
+      "style": "bg-black border border-white/10 font-mono text-xs md:text-sm text-green-400 p-4 rounded-lg overflow-x-auto shadow-inner h-64 overflow-y-auto"
+    }
+  },
+  "motion_and_interactions": {
+    "hover_states": "Interactive elements must change background, border color, or opacity on hover. Use smooth transitions (duration-200 or duration-300).",
+    "page_transitions": "If using framer-motion, apply subtle fade and slide up (opacity 0->1, y 10->0) for dashboard widgets mounting.",
+    "micro_interactions": "Pulse animation on the Brain Status widget. Typing effect or fade-in for new terminal logs."
+  },
+  "icons_and_assets": {
+    "icon_library": "lucide-react",
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1706148817964-08251bc8cf8c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHw0fHxuZW9uJTIwYWJzdHJhY3QlMjBhcnR8ZW58MHx8fHwxNzc3NTQ3NTAwfDA&ixlib=rb-4.1.0&q=85",
+        "category": "Brain Status Background",
+        "description": "Abstract neon lines to overlay behind the Brain Status widget with low opacity (e.g., opacity-20) to give a 'neural network' feel."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1570993492881-25240ce854f4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB0ZWNoJTIwZGVzayUyMHNldHVwfGVufDB8fHx8MTc3NzU0NzUwMHww&ixlib=rb-4.1.0&q=85",
+        "category": "Post Previewer Media",
+        "description": "Placeholder image for a generated AI social media post in the Unified Previewer tile."
+      }
+    ]
+  },
+  "accessibility": {
+    "contrast": "Ensure all text over glassmorphism backgrounds meets 4.5:1 contrast. Use pure white for headings and light slate for body.",
+    "focus": "Use focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505] for keyboard navigation.",
+    "testing": "All interactive elements (buttons, inputs, tabs, tiles, sidebar links) MUST include data-testid attributes (e.g., data-testid='sidebar-nav-home')."
+  },
+  "instructions_to_main_agent": [
+    "Import Google Fonts in index.css: Outfit, IBM Plex Sans, and JetBrains Mono.",
+    "Set the Tailwind config to use #050505 for the root background and apply the custom colors defined in this JSON.",
+    "Implement the Minimalist Sidebar Navigation on the left. It should use the glassmorphism surface style.",
+    "Use Shadcn UI components heavily but customize them to match the Glassmorphism card style (bg-white/[0.03], border-white/10).",
+    "Build the Command Center with a 'Brain Status Widget' that includes a glowing element or the provided background image.",
+    "Implement the 'Autonomous Content Pipeline' as a 5-stage visual tracker.",
+    "Create the 'Multi-Platform Manager' tiles (FB, IG, X, LinkedIn, TikTok) using grid layout with small connection health indicators (green dots).",
+    "Build the 'Ghost Reply Engine' with comment sentiment tags (positive/negative/neutral) and an Autonomous Mode toggle (Shadcn switch).",
+    "Create a 'Secure Vault' section for API keys using masked password inputs.",
+    "Implement the 'Agentic Log Terminal' as a dedicated dark block (#000000) with JetBrains Mono font mimicking a developer console."
+  ]
+}
