@@ -77,7 +77,7 @@ export default function SecureVault() {
                     type={showKey[provider.id] ? 'text' : 'password'}
                     value={keys[provider.id] || ''}
                     onChange={e => setKeys({ ...keys, [provider.id]: e.target.value })}
-                    placeholder={`Enter ${provider.name} API key`}
+                    placeholder={`Enter ${provider.name} key`}
                     className="w-full bg-black/40 border border-white/10 text-white focus:ring-2 focus:ring-violet-500 focus:border-transparent placeholder:text-slate-500 rounded-md px-3 py-2 text-sm font-mono outline-none pr-10"
                   />
                   <button
