@@ -21,8 +21,7 @@ export default function AgentTerminal({ isPanel, onClose }) {
 
   async function fetchLogs() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/agent-logs`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/agent-logs`);
       setLogs(data);
     } catch {}
     setLoading(false);

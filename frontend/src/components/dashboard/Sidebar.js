@@ -1,7 +1,6 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { Zap, LayoutDashboard, GitBranch, Globe, MessageCircle, Shield, Terminal, LogOut } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { Zap, LayoutDashboard, GitBranch, Globe, MessageCircle, Shield, Terminal } from 'lucide-react';
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Command Center' },
@@ -13,13 +12,6 @@ const navItems = [
 ];
 
 export default function Sidebar({ onTerminalToggle }) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    logout();
-    navigate('/login');
-  }
 
   return (
     <aside data-testid="sidebar-navigation" className="fixed left-0 top-0 h-screen w-16 lg:w-64 bg-white/[0.03] backdrop-blur-xl border-r border-white/10 flex flex-col z-40">
@@ -61,20 +53,6 @@ export default function Sidebar({ onTerminalToggle }) {
         >
           <Terminal size={18} />
           <span className="hidden lg:block text-xs">Toggle Terminal</span>
-        </button>
-        <div className="hidden lg:flex items-center gap-2 px-3 py-2">
-          <div className="w-6 h-6 rounded-full bg-accent-primary/30 flex items-center justify-center text-xs font-medium">
-            {user?.name?.[0] || 'U'}
-          </div>
-          <span className="text-xs text-text-secondary truncate">{user?.email}</span>
-        </div>
-        <button
-          data-testid="logout-button"
-          onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-red-400 hover:bg-red-400/10 transition-all w-full text-left"
-        >
-          <LogOut size={18} />
-          <span className="hidden lg:block text-xs">Sign Out</span>
         </button>
       </div>
     </aside>

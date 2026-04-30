@@ -22,8 +22,7 @@ export default function GhostReply() {
 
   async function fetchComments() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/comments`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/comments`);
       setComments(data);
     } catch {}
     setLoading(false);
@@ -31,8 +30,7 @@ export default function GhostReply() {
 
   async function handleReply(commentId) {
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(`${API}/api/comments/${commentId}/reply`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${API}/api/comments/${commentId}/reply`);
       setComments(comments.map(c => c.id === commentId ? { ...c, replied: true } : c));
     } catch {}
   }

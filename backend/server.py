@@ -217,11 +217,10 @@ async def logout(response: Response):
 
 @app.post("/api/pipeline/start")
 async def start_pipeline(body: NicheInput, request: Request):
-    user = await get_current_user(request)
     pipeline_id = str(uuid.uuid4())
     pipeline_doc = {
         "pipeline_id": pipeline_id,
-        "user_id": user["_id"],
+        "user_id": "default",
         "niche": body.niche,
         "status": "running",
         "current_stage": 1,
@@ -298,7 +297,6 @@ async def run_pipeline(pipeline_id: str, niche: str):
 
 @app.get("/api/pipeline/{pipeline_id}")
 async def get_pipeline(pipeline_id: str, request: Request):
-    await get_current_user(request)
     pipeline = await db.pipelines.find_one({"pipeline_id": pipeline_id}, {"_id": 0})
     if not pipeline:
         raise HTTPException(status_code=404, detail="Pipeline not found")
@@ -307,8 +305,7 @@ async def get_pipeline(pipeline_id: str, request: Request):
 
 @app.get("/api/pipelines")
 async def list_pipelines(request: Request):
-    user = await get_current_user(request)
-    pipelines = await db.pipelines.find({"user_id": user["_id"]}, {"_id": 0}).sort("created_at", -1).limit(10).to_list(10)
+    pipelines = await db.pipelines.find({}, {"_id": 0}).sort("created_at", -1).limit(10).to_list(10)
     return pipelines
 
 
@@ -316,7 +313,6 @@ async def list_pipelines(request: Request):
 
 @app.get("/api/platforms")
 async def get_platforms(request: Request):
-    await get_current_user(request)
     platforms = await db.platforms.find({}, {"_id": 0}).to_list(10)
     return platforms
 
@@ -338,7 +334,6 @@ async def get_comments(request: Request):
 
 @app.post("/api/comments/{comment_id}/reply")
 async def reply_to_comment(comment_id: str, request: Request):
-    await get_current_user(request)
     result = await db.comments.update_one({"_id": ObjectId(comment_id)}, {"$set": {"replied": True}})
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="Comment not found")
@@ -348,7 +343,6 @@ async def reply_to_comment(comment_id: str, request: Request):
 
 @app.post("/api/comments/generate-reply")
 async def generate_reply(request: Request):
-    await get_current_user(request)
     body = await request.json()
     comment_text = body.get("comment_text", "")
     from emergentintegrations.llm.chat import LlmChat, UserMessage
@@ -363,16 +357,14 @@ async def generate_reply(request: Request):
 
 @app.get("/api/vault/keys")
 async def get_vault_keys(request: Request):
-    user = await get_current_user(request)
-    keys = await db.vault_keys.find({"user_id": user["_id"]}, {"_id": 0, "api_key": 0}).to_list(20)
+    keys = await db.vault_keys.find({"user_id": "default"}, {"_id": 0, "api_key": 0}).to_list(20)
     return keys
 
 
 @app.post("/api/vault/keys")
 async def save_vault_key(body: VaultKeyInput, request: Request):
-    user = await get_current_user(request)
     await db.vault_keys.update_one(
-        {"user_id": user["_id"], "provider": body.provider},
+        {"user_id": "default", "provider": body.provider},
         {"$set": {"api_key": body.api_key, "updated_at": datetime.now(timezone.utc)}},
         upsert=True
     )
@@ -392,7 +384,6 @@ async def add_agent_log(log_type: str, message: str, pipeline_id: Optional[str])
 
 @app.get("/api/agent-logs")
 async def get_agent_logs(request: Request):
-    await get_current_user(request)
     logs = []
     async for log in db.agent_logs.find({}).sort("timestamp", -1).limit(50):
         log["id"] = str(log["_id"])
@@ -407,7 +398,6 @@ async def get_agent_logs(request: Request):
 
 @app.get("/api/brain/status")
 async def get_brain_status(request: Request):
-    await get_current_user(request)
     # Check if there's a running pipeline
     running = await db.pipelines.find_one({"status": "running"})
     if running:

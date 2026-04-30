@@ -23,8 +23,7 @@ export default function SecureVault() {
 
   async function fetchKeys() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/vault/keys`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/vault/keys`);
       setSavedKeys(data.map(k => k.provider));
     } catch {}
   }
@@ -33,8 +32,7 @@ export default function SecureVault() {
     if (!keys[provider]) return;
     setSaving({ ...saving, [provider]: true });
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(`${API}/api/vault/keys`, { provider, api_key: keys[provider] }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${API}/api/vault/keys`, { provider, api_key: keys[provider] });
       setSavedKeys([...savedKeys, provider]);
     } catch {}
     setSaving({ ...saving, [provider]: false });

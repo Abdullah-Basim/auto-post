@@ -22,8 +22,7 @@ export default function PlatformManager() {
 
   async function fetchPlatforms() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/platforms`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/platforms`);
       setPlatforms(data);
     } catch {}
   }

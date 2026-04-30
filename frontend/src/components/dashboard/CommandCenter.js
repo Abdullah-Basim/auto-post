@@ -19,8 +19,7 @@ export default function CommandCenter() {
 
   async function fetchBrainStatus() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/brain/status`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/brain/status`);
       setBrainStatus(data);
     } catch {}
   }
@@ -30,8 +29,7 @@ export default function CommandCenter() {
     if (!niche.trim()) return;
     setLaunching(true);
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(`${API}/api/pipeline/start`, { niche }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${API}/api/pipeline/start`, { niche });
       setNiche('');
       fetchBrainStatus();
       setTimeout(() => navigate('/pipeline'), 500);

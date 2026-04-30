@@ -20,8 +20,7 @@ export default function ContentPipeline() {
 
   async function fetchPipelines() {
     try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${API}/api/pipelines`, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get(`${API}/api/pipelines`);
       setPipelines(data);
     } catch {}
     setLoading(false);
