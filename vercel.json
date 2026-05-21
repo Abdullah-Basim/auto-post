@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "$comment": "Vercel Hobby caps cron to 1x/day. On Pro, raise: publish-scheduled to every 5m, sync-comments hourly, process-autonomy every 15m.",
   "crons": [
     {
       "path": "/api/cron/publish-scheduled",
