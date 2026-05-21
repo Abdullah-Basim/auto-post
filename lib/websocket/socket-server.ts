@@ -54,7 +54,7 @@ export class WebSocketServer {
 
       // Update agent state
       await updateAgentState(userId, {
-        current_status: 'generating',
+        current_status: 'scanning',
         current_action: 'Initiating content generation pipeline',
         current_campaign_id: campaignId,
         stage_progress: 0,
@@ -63,7 +63,7 @@ export class WebSocketServer {
 
       // Emit to user
       this.io.to(`user:${userId}`).emit('agent:started', {
-        status: 'generating',
+        status: 'scanning',
         campaignId,
       })
 

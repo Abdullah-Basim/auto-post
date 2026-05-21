@@ -22,3 +22,7 @@ node_modules
 .next/
 .DS_Store
 .vercel
+.env.local
+.env.production.local
+.env.development.local
+*.tsbuildinfo

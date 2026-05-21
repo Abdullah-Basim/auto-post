@@ -7,7 +7,7 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
-interface ReplyConfig {
+export interface ReplyConfig {
   autoReplyPositive: boolean
   autoReplyQuestions: boolean
   autoReplyNegative: boolean

@@ -64,14 +64,14 @@ export function AutonomyConfig({ userId }: AutonomyConfigProps) {
   }
 
   const handleToggle = (key: keyof ReplyConfig) => {
-    setConfig((prev) => ({
+    setConfig((prev: Partial<ReplyConfig>) => ({
       ...prev,
       [key]: !prev[key],
     }))
   }
 
   const handleNumericChange = (key: keyof ReplyConfig, value: string) => {
-    setConfig((prev) => ({
+    setConfig((prev: Partial<ReplyConfig>) => ({
       ...prev,
       [key]: Math.max(0, parseInt(value) || 0),
     }))

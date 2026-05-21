@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     // Get autonomy config
     const { data: config, error: configError } = await supabase
-      .from('autonomy_configs')
+      .from('autonomy_config')
       .select('*')
       .eq('user_id', user.id)
       .single()
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
 
     // Get all users with enabled autonomy
     const { data: configs, error: configError } = await supabase
-      .from('autonomy_configs')
+      .from('autonomy_config')
       .select('user_id')
       .eq('enabled', true)
 

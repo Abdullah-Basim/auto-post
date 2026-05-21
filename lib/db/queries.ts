@@ -224,14 +224,35 @@ export async function getAgentState() {
   return data as AgentState | null
 }
 
-export async function updateAgentState(updates: Partial<AgentState>) {
+export async function updateAgentState(
+  userIdOrUpdates: string | Partial<AgentState>,
+  maybeUpdates?: Partial<AgentState>
+) {
+  // Support both call styles:
+  //   updateAgentState(updates)           — uses RLS-scoped client
+  //   updateAgentState(userId, updates)   — explicit user filter (used by socket server)
+  const updates =
+    typeof userIdOrUpdates === 'string' ? maybeUpdates ?? {} : userIdOrUpdates
+  const userId = typeof userIdOrUpdates === 'string' ? userIdOrUpdates : undefined
+
   const supabase = await createClient()
+  const row = { ...updates, updated_at: new Date().toISOString() }
+
+  if (userId) {
+    const { data, error } = await supabase
+      .from('agent_state')
+      .upsert({ user_id: userId, ...row }, { onConflict: 'user_id' })
+      .select()
+      .single()
+    if (error) throw error
+    return data as AgentState
+  }
+
   const { data, error } = await supabase
     .from('agent_state')
-    .update({ ...updates, updated_at: new Date().toISOString() })
+    .update(row)
     .select()
     .single()
-
   if (error) throw error
   return data as AgentState
 }
@@ -239,11 +260,22 @@ export async function updateAgentState(updates: Partial<AgentState>) {
 /**
  * Agent Logs Queries
  */
-export async function createAgentLog(log: Omit<AgentLog, 'id' | 'created_at'>) {
+type CreateAgentLogInput =
+  Pick<AgentLog, 'user_id' | 'agent_action' | 'log_level'> &
+  Partial<Pick<AgentLog, 'campaign_id' | 'content_piece_id' | 'message' | 'raw_json'>>
+
+export async function createAgentLog(log: CreateAgentLogInput) {
   const supabase = await createClient()
+  const row = {
+    campaign_id: null,
+    content_piece_id: null,
+    message: null,
+    raw_json: {},
+    ...log,
+  }
   const { data, error } = await supabase
     .from('agent_logs')
-    .insert([log])
+    .insert([row])
     .select()
     .single()
 

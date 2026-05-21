@@ -74,7 +74,7 @@ export function PublishingAnalytics() {
             },
             {} as Record<string, number>
           )
-          const topPlatform = Object.entries(platformCounts).sort(
+          const topPlatform = (Object.entries(platformCounts) as Array<[string, number]>).sort(
             ([, a], [, b]) => b - a
           )[0]?.[0] || ''
 
